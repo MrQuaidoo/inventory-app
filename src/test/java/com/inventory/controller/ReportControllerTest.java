@@ -1,4 +1,5 @@
-import com.inventory.controller.ReportController;
+package com.inventory.controller;
+
 import com.inventory.model.InventoryRecord;
 import com.inventory.model.Product;
 import com.inventory.service.InventoryRecordService;

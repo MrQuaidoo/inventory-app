@@ -1,4 +1,5 @@
-import com.inventory.common.RestockScheduler;
+package com.inventory.common;
+
 import com.inventory.model.Product;
 import com.inventory.service.ProductService;
 import org.junit.jupiter.api.Test;

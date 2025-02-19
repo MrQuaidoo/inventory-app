@@ -1,6 +1,7 @@
+package com.inventory.repository;
+
 import com.inventory.InventoryApplication;
 import com.inventory.model.InventoryRecord;
-import com.inventory.repository.InventoryRecordRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;

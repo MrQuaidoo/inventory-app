@@ -1,4 +1,5 @@
-import com.inventory.controller.ProductController;
+package com.inventory.controller;
+
 import com.inventory.model.Product;
 import com.inventory.service.ProductService;
 import org.junit.jupiter.api.BeforeEach;

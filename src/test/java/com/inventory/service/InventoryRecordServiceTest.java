@@ -1,6 +1,7 @@
+package com.inventory.service;
+
 import com.inventory.model.InventoryRecord;
 import com.inventory.repository.InventoryRecordRepository;
-import com.inventory.service.InventoryRecordService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
