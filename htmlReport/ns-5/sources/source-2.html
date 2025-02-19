@@ -1,0 +1,238 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > ProductService</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">com.inventory.service</a>
+</div>
+
+<h1>Coverage Summary for Class: ProductService (com.inventory.service)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ProductService</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (9/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (3/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (24/24)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package com.inventory.service;
+&nbsp;
+&nbsp;import com.inventory.model.InventoryRecord;
+&nbsp;import com.inventory.model.Product;
+&nbsp;import com.inventory.repository.InventoryRecordRepository;
+&nbsp;import com.inventory.repository.ProductRepository;
+&nbsp;import org.springframework.stereotype.Service;
+&nbsp;
+&nbsp;import java.util.List;
+&nbsp;
+&nbsp;/**
+&nbsp; * Service class for managing product-related operations in the inventory.
+&nbsp; * Provides CRUD functionalities and stock management.
+&nbsp; */
+&nbsp;@Service
+&nbsp;public class ProductService {
+&nbsp;
+&nbsp;    private final ProductRepository productRepository;
+&nbsp;    private final InventoryRecordRepository inventoryRecordRepository;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Constructor to inject dependencies.
+&nbsp;     *
+&nbsp;     * @param productRepository          Repository for managing products.
+&nbsp;     * @param inventoryRecordRepository  Repository for managing inventory records.
+&nbsp;     */
+<b class="fc">&nbsp;    ProductService(ProductRepository productRepository, InventoryRecordRepository inventoryRecordRepository) {</b>
+<b class="fc">&nbsp;        this.productRepository = productRepository;</b>
+<b class="fc">&nbsp;        this.inventoryRecordRepository = inventoryRecordRepository;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Retrieves all products from the inventory.
+&nbsp;     *
+&nbsp;     * @return List of products.
+&nbsp;     */
+&nbsp;    public List&lt;Product&gt; getAllProducts() {
+<b class="fc">&nbsp;        return productRepository.findAll();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Retrieves a product by its ID.
+&nbsp;     *
+&nbsp;     * @param id The ID of the product to retrieve.
+&nbsp;     * @return The product if found.
+&nbsp;     * @throws RuntimeException If the product is not found.
+&nbsp;     */
+&nbsp;    public Product getProductById(Long id) {
+<b class="fc">&nbsp;        return productRepository.findById(id).orElseThrow(() -&gt; new RuntimeException(&quot;Product not found&quot;));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Saves a new product in the inventory.
+&nbsp;     *
+&nbsp;     * @param product The product to be saved.
+&nbsp;     * @return The saved product.
+&nbsp;     */
+&nbsp;    public Product saveProduct(Product product) {
+<b class="fc">&nbsp;        return productRepository.save(product);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Updates an existing product in the inventory.
+&nbsp;     *
+&nbsp;     * @param id             The ID of the product to update.
+&nbsp;     * @param updatedProduct The updated product details.
+&nbsp;     * @return The updated product.
+&nbsp;     * @throws RuntimeException If the product is not found.
+&nbsp;     */
+&nbsp;    public Product updateProduct(Long id, Product updatedProduct) {
+<b class="fc">&nbsp;        return productRepository.findById(id).map(product -&gt; {</b>
+<b class="fc">&nbsp;            product.setName(updatedProduct.getName());</b>
+<b class="fc">&nbsp;            product.setStockLevel(updatedProduct.getStockLevel());</b>
+<b class="fc">&nbsp;            product.setRestockThreshold(updatedProduct.getRestockThreshold());</b>
+<b class="fc">&nbsp;            product.setRestockAmount(updatedProduct.getRestockAmount());</b>
+<b class="fc">&nbsp;            return productRepository.save(product);</b>
+<b class="fc">&nbsp;        }).orElseThrow(() -&gt; new RuntimeException(&quot;Product not found&quot;));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Deletes a product from the inventory.
+&nbsp;     *
+&nbsp;     * @param id The ID of the product to delete.
+&nbsp;     */
+&nbsp;    public void deleteProduct(Long id) {
+<b class="fc">&nbsp;        productRepository.deleteById(id);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Retrieves a list of products that have reached or fallen below the restocking threshold.
+&nbsp;     *
+&nbsp;     * @return List of low-stock products.
+&nbsp;     */
+&nbsp;    public List&lt;Product&gt; getLowStockProducts() {
+<b class="fc">&nbsp;        return productRepository.findAll().stream()</b>
+<b class="pc">&nbsp;                .filter(product -&gt; product.getStockLevel() &lt;= product.getRestockThreshold())</b>
+<b class="fc">&nbsp;                .toList();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Removes a specified quantity of stock from a product.
+&nbsp;     * Also records the inventory transaction.
+&nbsp;     *
+&nbsp;     * @param productId The ID of the product.
+&nbsp;     * @param quantity  The quantity to remove.
+&nbsp;     * @throws RuntimeException If stock is insufficient.
+&nbsp;     */
+&nbsp;    public void removeProductStock(Long productId, int quantity) {
+<b class="fc">&nbsp;        Product product = getProductById(productId);</b>
+<b class="fc">&nbsp;        if (product.getStockLevel() &lt; quantity) {</b>
+<b class="fc">&nbsp;            throw new RuntimeException(&quot;Insufficient stock&quot;);</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        // Deduct stock
+<b class="fc">&nbsp;        product.setStockLevel(product.getStockLevel() - quantity);</b>
+<b class="fc">&nbsp;        productRepository.save(product);</b>
+&nbsp;
+&nbsp;        // Record the stock removal in inventory records
+<b class="fc">&nbsp;        InventoryRecord record = new InventoryRecord(productId, product.getName(), quantity);</b>
+<b class="fc">&nbsp;        inventoryRecordRepository.save(record);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2025-02-03 16:48</div>
+</div>
+</body>
+</html>
